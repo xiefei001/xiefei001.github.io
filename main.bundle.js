@@ -56988,15 +56988,17 @@ var FmSignatureComponent = (function () {
      * Init logical width and height of the canvas.
      */
     FmSignatureComponent.prototype.ngAfterViewInit = function () {
-        var width = this.signatureCanvas.nativeElement.getAttribute('width');
+        var canvas = this.signatureCanvas.nativeElement;
+        var width = canvas.getAttribute('width');
         if (width) {
             this.canvasLogicalWidth = width;
         }
-        var height = this.signatureCanvas.nativeElement.getAttribute('height');
+        var height = canvas.getAttribute('height');
         if (height) {
             this.canvasLogicalHeight = height;
         }
-        this.ctx = this.signatureCanvas.nativeElement.getContext("2d");
+        this.ctx = canvas.getContext("2d");
+        canvas.addEventListener('touchstart', this.onTouchStart, false);
     };
     /**
      * Determine ratePxToLogicalPointWidth and ratePxToLogicalPointHeight and Start Point.
@@ -60297,7 +60299,7 @@ module.exports = "<h1>\n  {{title}}\n</h1>\n<input type=\"file\" accept=\"image/
 /* 657 */
 /***/ function(module, exports) {
 
-module.exports = "<canvas id=\"canvas\" #signatureCanvas class=\"signature\"\n        (mousedown)=\"onMousedown($event)\" (mouseout)=\"onMouseout($event)\" (mousemove)=\"onMouseMove($event)\"\n        (mouseup)=\"onMouseUp($event)\"\n\n        (touchstart)=\"onTouchStart($event)\" (touchmove)=\"onMouseMove($event)\" (touchend)=\"onMouseUp($event)\">\n\n  Sorry, your browser doesn't support the &lt;canvas&gt; element.\n</canvas>\n<div class=\"signature-footer\">\n  <button type=\"button\" class=\"btn btn-default\" (click)=\"reset()\">Zurücksetzen</button>\n  <button type=\"button\" class=\"btn btn-primary pull-right\" data-action=\"save\">Save</button>\n</div>\n<div>\n  {{touch| json}}\n</div>\n"
+module.exports = "<canvas id=\"canvas\" #signatureCanvas class=\"signature\"\n        (mousedown)=\"onMousedown($event)\" (mouseout)=\"onMouseout($event)\" (mousemove)=\"onMouseMove($event)\"\n        (mouseup)=\"onMouseUp($event)\">\n\n  Sorry, your browser doesn't support the &lt;canvas&gt; element.\n</canvas>\n<div class=\"signature-footer\">\n  <button type=\"button\" class=\"btn btn-default\" (click)=\"reset()\">Zurücksetzen</button>\n  <button type=\"button\" class=\"btn btn-primary pull-right\" data-action=\"save\">Save</button>\n</div>\n<div>\n  {{touch| json}}\n</div>\n"
 
 /***/ },
 /* 658 */
