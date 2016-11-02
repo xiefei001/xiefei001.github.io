@@ -57035,6 +57035,9 @@ var FmSignatureComponent = (function () {
         canvas.addEventListener('mousedown', function (event) {
             _this.touch = 'cccccccccccc';
         });
+        canvas.addEventListener('mousemove', function (event) {
+            _this.touch = 'mouse moved';
+        });
         //canvas.addEventListener('touchmove', this.onTouchMove);
         /*document.addEventListener('touchstart', (event: any)=> {
          this.touch = 'dddddddddddddd';
