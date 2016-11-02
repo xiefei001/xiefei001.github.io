@@ -56985,9 +56985,10 @@ var FmSignatureComponent = (function () {
         this.drawing = false;
         this.touch = '11111111111111';
     }
-    FmSignatureComponent.prototype.onTouch = function (event) {
-        this.touch = 'eeeeeeeeeeeee';
-    };
+    /**@HostListener('touchstart', ['$event'])
+    onTouch(event: any) {
+      this.touch = 'eeeeeeeeeeeee';
+    }*/
     /**
      * Init logical width and height of the canvas.
      */
@@ -57012,7 +57013,7 @@ var FmSignatureComponent = (function () {
         canvas.addEventListener('touchstart', function (event) {
             _this.touch = 'dddddddddddddd';
         });
-        canvas.addEventListener('touchmove', this.onTouchMove);
+        //canvas.addEventListener('touchmove', this.onTouchMove);
         /*document.addEventListener('touchstart', (event: any)=> {
           this.touch = 'dddddddddddddd';
         });*/
@@ -57106,12 +57107,6 @@ var FmSignatureComponent = (function () {
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Input */])(), 
         __metadata('design:type', String)
     ], FmSignatureComponent.prototype, "backgroundColor", void 0);
-    __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* HostListener */])('touchstart', ['$event']), 
-        __metadata('design:type', Function), 
-        __metadata('design:paramtypes', [Object]), 
-        __metadata('design:returntype', void 0)
-    ], FmSignatureComponent.prototype, "onTouch", null);
     FmSignatureComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Component */])({
             selector: 'fm-signature',
