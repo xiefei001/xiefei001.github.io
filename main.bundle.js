@@ -57004,7 +57004,7 @@ var FmSignatureComponent = (function () {
             if (event.targetTouches.length === 1) {
                 var touchEvent = event.changedTouches[0];
                 self.onMousedown(touchEvent);
-                _this.touch = 'touch started';
+                _this.touch = 'touch started' + _this.drawing;
                 event.preventDefault();
             }
         });
@@ -57025,7 +57025,7 @@ var FmSignatureComponent = (function () {
             if (event.targetTouches.length === 1) {
                 var touchEvent = event.changedTouches[0];
                 self.onMouseUp(touchEvent);
-                _this.touch = 'touch end';
+                _this.touch = 'touch end' + _this.drawing;
                 event.preventDefault();
             }
         });
