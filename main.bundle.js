@@ -57024,6 +57024,7 @@ var FmSignatureComponent = (function () {
      * @param event
      */
     FmSignatureComponent.prototype.onTouchStart = function (event) {
+        this.touch = 'aaaaaaaaaaaaaaaaaaaaa';
         if (event.targetTouches.length === 1) {
             var touch = event.changedTouches[0];
             this.touch = event.changedTouches[0];
