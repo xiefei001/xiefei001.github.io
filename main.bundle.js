@@ -56993,7 +56993,6 @@ var FmSignatureComponent = (function () {
      * Init logical width and height of the canvas.
      */
     FmSignatureComponent.prototype.ngAfterViewInit = function () {
-        var _this = this;
         var canvas = this.signatureCanvas.nativeElement;
         var width = canvas.getAttribute('width');
         if (width) {
@@ -57010,9 +57009,7 @@ var FmSignatureComponent = (function () {
         }); */
         canvas.style.msTouchAction = 'none';
         canvas.style.touchAction = 'none';
-        canvas.addEventListener('touchstart', function (event) {
-            _this.touch = 'dddddddddddddd';
-        });
+        canvas.addEventListener('touchstart', this.onTouchStart);
         //canvas.addEventListener('touchmove', this.onTouchMove);
         /*document.addEventListener('touchstart', (event: any)=> {
           this.touch = 'dddddddddddddd';
@@ -57048,14 +57045,12 @@ var FmSignatureComponent = (function () {
   
      * @param event
      */
-    /* onTouchStart(event: any) {
-       this.touch = 'aaaaaaaaaaaaaaaaaaaaa';
-       if (event.targetTouches.length === 1) {
-         let touch: Touch = event.changedTouches[0];
-         this.touch = event.changedTouches[0];
-         this.onMousedown(touch);
-       }
-     }*/
+    FmSignatureComponent.prototype.onTouchStart = function (event) {
+        if (event.targetTouches.length === 1) {
+            var touch = event.changedTouches[0];
+        }
+        this.touch = 'dddddd' + event.targetTouches.length + " ";
+    };
     FmSignatureComponent.prototype.onMouseout = function (event) {
         if (event.target === this.signatureCanvas.nativeElement && this.drawing) {
             this.drawing = false;
