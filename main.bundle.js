@@ -57000,7 +57000,10 @@ var FmSignatureComponent = (function () {
         this.ctx = canvas.getContext("2d");
         var canvasElement = document.getElementById('canvas');
         canvasElement.addEventListener('touchstart', this.onTouchStart, false);
-        canvas.addEventListener('touchstart', this.onTouchStart, false);
+        canvas.style.msTouchAction = 'none';
+        canvas.style.touchAction = 'none';
+        canvas.addEventListener('touchstart', this.onTouchStart);
+        canvas.addEventListener('touchmove', this.onTouchMove);
     };
     /**
      * Determine ratePxToLogicalPointWidth and ratePxToLogicalPointHeight and Start Point.
@@ -57060,6 +57063,9 @@ var FmSignatureComponent = (function () {
             // set current point to the new point.
             this.currLogicalPoint = newPoint;
         }
+    };
+    FmSignatureComponent.prototype.onTouchMove = function (event) {
+        this.touch = 'cccccccccccccc';
     };
     FmSignatureComponent.prototype.reset = function () {
         var canvas = this.signatureCanvas.nativeElement;
