@@ -56993,10 +56993,6 @@ var FmSignatureComponent = (function () {
      */
     FmSignatureComponent.prototype.ngAfterViewInit = function () {
         var _this = this;
-        document.addEventListener('touchmove', function (event) {
-            _this.touch = 'ggggggggggg';
-            event.preventDefault();
-        });
         var canvas = this.signatureCanvas.nativeElement;
         var width = canvas.getAttribute('width');
         if (width) {
