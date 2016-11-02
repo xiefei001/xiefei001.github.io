@@ -56998,7 +56998,9 @@ var FmSignatureComponent = (function () {
             this.canvasLogicalHeight = height;
         }
         this.ctx = canvas.getContext("2d");
-        canvas.addEventListener('touchstart', this.onTouchStart, false);
+        var canvasElement = document.getElementById('canvas');
+        canvasElement.addEventListener('touchstart', this.onTouchStart, false);
+        //canvas.addEventListener('touchstart', this.onTouchStart, false);
     };
     /**
      * Determine ratePxToLogicalPointWidth and ratePxToLogicalPointHeight and Start Point.
