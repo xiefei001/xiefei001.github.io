@@ -60299,7 +60299,7 @@ module.exports = "<h1>\n  {{title}}\n</h1>\n<input type=\"file\" accept=\"image/
 /* 657 */
 /***/ function(module, exports) {
 
-module.exports = "<canvas id=\"canvas\" #signatureCanvas class=\"signature\"\n        (mousedown)=\"onMousedown($event)\" (mouseout)=\"onMouseout($event)\" (mousemove)=\"onMouseMove($event)\"\n        (mouseup)=\"onMouseUp($event)\">\n\n  Sorry, your browser doesn't support the &lt;canvas&gt; element.\n</canvas>\n<div class=\"signature-footer\">\n  <button type=\"button\" class=\"btn btn-default\" (click)=\"reset()\">Zurücksetzen</button>\n  <button type=\"button\" class=\"btn btn-primary pull-right\" data-action=\"save\">Save</button>\n</div>\n<div>\n  {{touch| json}}\n</div>\n"
+module.exports = "<canvas id=\"canvas\" #signatureCanvas class=\"signature\"\n        (mousedown)=\"onMousedown($event)\" (mouseout)=\"onMouseout($event)\" (mousemove)=\"onMouseMove($event)\"\n        (mouseup)=\"onMouseUp($event)\">\n\n  Sorry, your browser doesn't support the &lt;canvas&gt; element.\n</canvas>\n<div class=\"signature-footer\">\n  <button type=\"button\" class=\"btn btn-default\" (click)=\"reset()\">Zurücksetzen</button>\n  <button type=\"button\" class=\"btn btn-primary pull-right\" data-action=\"save\">Save</button>\n</div>\n<div>\n  Touch has value: {{touch| json}}\n</div>\n"
 
 /***/ },
 /* 658 */
