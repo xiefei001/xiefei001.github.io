@@ -56981,34 +56981,117 @@ var FmSignatureComponent = (function () {
         this.canvasLogicalWidth = 300;
         this.canvasLogicalHeight = 150;
         this.drawing = false;
+        this.touch = '11111111111111';
     }
+    /**@HostListener('touchstart', ['$event'])
+     onTouch(event: any) {
+      this.touch = 'eeeeeeeeeeeee';
+    }*/
     /**
      * Init logical width and height of the canvas.
      */
     FmSignatureComponent.prototype.ngAfterViewInit = function () {
-        var width = this.signatureCanvas.nativeElement.getAttribute('width');
+        var _this = this;
+        var canvas = this.signatureCanvas.nativeElement;
+        var width = canvas.getAttribute('width');
         if (width) {
             this.canvasLogicalWidth = width;
         }
-        var height = this.signatureCanvas.nativeElement.getAttribute('height');
+        var height = canvas.getAttribute('height');
         if (height) {
             this.canvasLogicalHeight = height;
         }
-        this.ctx = this.signatureCanvas.nativeElement.getContext("2d");
+        this.ctx = canvas.getContext("2d");
+        var canvasElement = document.getElementById('canvas');
+        /*canvasElement.addEventListener('touchstart', (event:any)=>{
+         this.touch = 'eeeeeeeeeeeee';
+         }); */
+        canvas.style.msTouchAction = 'none';
+        canvas.style.touchAction = 'none';
+        canvas.addEventListener('touchstart', function (event) {
+            _this.touch = 'dddddddddddddddddddddddddddddddd';
+            // Mit einem Finger.
+            if (event.targetTouches.length === 1) {
+                var touch = event.changedTouches[0];
+                if (touch.target === _this.signatureCanvas.nativeElement && !_this.drawing) {
+                    _this.drawing = true;
+                    var canvasRect = _this.signatureCanvas.nativeElement.getBoundingClientRect();
+                    _this.ratePxToLogicalPointWidth = (canvasRect.right - canvasRect.left) / _this.canvasLogicalWidth;
+                    _this.ratePxToLogicalPointHeight = (canvasRect.bottom - canvasRect.top) / _this.canvasLogicalHeight;
+                    _this.currLogicalPoint = _this.getCurrentLogicalPointForEvent(event);
+                    _this.touch = 'dddddd' + event.targetTouches.length + "target ist canvas";
+                    event.preventDefault();
+                }
+            }
+        });
+        canvas.addEventListener('touchmove', function (event) {
+            if (_this.drawing) {
+                var touch = event.changedTouches[0];
+                var newPoint = _this.getCurrentLogicalPointForEvent(touch);
+                _this.ctx.beginPath();
+                // draw line from current point to new point
+                _this.ctx.moveTo(_this.currLogicalPoint.x, _this.currLogicalPoint.y);
+                _this.ctx.lineTo(newPoint.x, newPoint.y);
+                _this.ctx.strokeStyle = 'blue';
+                _this.ctx.lineWidth = 2;
+                _this.ctx.stroke();
+                // set current point to the new point.
+                _this.currLogicalPoint = newPoint;
+                event.preventDefault();
+            }
+            _this.touch = 'touch moved';
+        });
+        canvas.addEventListener('touchcancel', function (event) {
+            _this.touch = 'touch cancled';
+        });
+        canvas.addEventListener('touchend', function (event) {
+            var touch = event.changedTouches[0];
+            if (touch.target === _this.signatureCanvas.nativeElement && _this.drawing) {
+                _this.drawing = false;
+                event.preventDefault();
+            }
+            _this.touch = 'touch end';
+        });
+        canvas.addEventListener('mousedown', function (event) {
+            _this.touch = 'cccccccccccc';
+        });
+        canvas.addEventListener('mousemove', function (event) {
+            _this.touch = 'mouse moved';
+        });
+        //canvas.addEventListener('touchmove', this.onTouchMove);
+        /*document.addEventListener('touchstart', (event: any)=> {
+         this.touch = 'dddddddddddddd';
+         });*/
     };
     /**
      * Determine ratePxToLogicalPointWidth and ratePxToLogicalPointHeight and Start Point.
      * @param event
      */
-    FmSignatureComponent.prototype.onMousedown = function (event) {
-        if (event.target === this.signatureCanvas.nativeElement && !this.drawing) {
-            this.drawing = true;
-            var canvasRect = this.signatureCanvas.nativeElement.getBoundingClientRect();
-            this.ratePxToLogicalPointWidth = (canvasRect.right - canvasRect.left) / this.canvasLogicalWidth;
-            this.ratePxToLogicalPointHeight = (canvasRect.bottom - canvasRect.top) / this.canvasLogicalHeight;
-            this.currLogicalPoint = this.getCurrentLogicalPointForEvent(event);
-            event.preventDefault();
-        }
+    /*onMousedown(event: any) {
+  
+     this.touch = 'touched';
+     if (event.target === this.signatureCanvas.nativeElement && !this.drawing) {
+     this.drawing = true;
+     let canvasRect = this.signatureCanvas.nativeElement.getBoundingClientRect();
+  
+  
+     this.ratePxToLogicalPointWidth = (canvasRect.right - canvasRect.left) / this.canvasLogicalWidth;
+     this.ratePxToLogicalPointHeight = (canvasRect.bottom - canvasRect.top) / this.canvasLogicalHeight;
+     this.currLogicalPoint = this.getCurrentLogicalPointForEvent(event);
+  
+     event.preventDefault();
+     }
+     }*/
+    /**
+     *   this._handleTouchStart = function (event) {
+              if (event.targetTouches.length == 1) {
+                  var touch = event.changedTouches[0];
+                  self._strokeBegin(touch);
+               }
+          };
+     */
+    FmSignatureComponent.prototype.onMouseDown = function (event) {
+        this.touch = 'dddddd';
     };
     FmSignatureComponent.prototype.onMouseout = function (event) {
         if (event.target === this.signatureCanvas.nativeElement && this.drawing) {
@@ -57035,6 +57118,9 @@ var FmSignatureComponent = (function () {
             // set current point to the new point.
             this.currLogicalPoint = newPoint;
         }
+    };
+    FmSignatureComponent.prototype.onTouchMove = function (event) {
+        this.touch = 'cccccccccccccc';
     };
     FmSignatureComponent.prototype.reset = function () {
         var canvas = this.signatureCanvas.nativeElement;
@@ -60257,7 +60343,7 @@ process.umask = function() { return 0; };
 /* 651 */
 /***/ function(module, exports) {
 
-module.exports = "\n\n"
+module.exports = "html, body {\n  height: 100%;\n  width: 100%;\n  overflow: auto;\n}\n\n"
 
 /***/ },
 /* 652 */
@@ -60269,13 +60355,13 @@ module.exports = ".signature {\n  /* Same width as parent */\n  width: 100%;\n  
 /* 653 */
 /***/ function(module, exports) {
 
-module.exports = "<h1>\n  {{title}}\n</h1>\n<input type=\"file\" accept=\"image/*\" (change)=\"onImageSelected($event)\">\n\n\n<button class=\"btn btn-primary \" (click)=\"lgModal.show()\">Large modal</button>\n\n<div fmModal #lgModal=\"fm-modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myLargeModalLabel\"\n     aria-hidden=\"true\">\n  <div class=\"modal-dialog modal-lg\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <button type=\"button\" class=\"close\" (click)=\"lgModal.hide()\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n        <h4 class=\"modal-title\">Large modal</h4>\n      </div>\n      <div class=\"modal-body\">\n        <div class=\"row\">\n          <fm-signature class=\"col-sm-4\"></fm-signature>\n          <div class=\"col-sm-4\">\n            <p>item 1: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been\n              the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and\n              scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into\n              electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release\n              of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software\n              like Aldus PageMaker including versions of Lorem Ipsum.</p>\n          </div> <!-- /col-md-4 -->\n          <div class=\"col-sm-4\">\n            <p>item 2: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been\n              the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and\n              scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into\n              electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release\n              of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software\n              like Aldus PageMaker including versions of Lorem Ipsum.</p>\n          </div> <!-- /col-md-4 -->\n        </div> <!-- /row -->\n      </div>\n    </div>\n  </div>\n</div>\n\n"
+module.exports = "<h1>\n  {{title}}\n</h1>\n<input type=\"file\" accept=\"image/*\" (change)=\"onImageSelected($event)\">\n\n\n<button class=\"btn btn-primary \" (click)=\"lgModal.show()\">Large modal</button>\n\n<div fmModal #lgModal=\"fm-modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myLargeModalLabel\"\n     aria-hidden=\"true\">\n  <div class=\"modal-dialog modal-lg\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <button type=\"button\" class=\"close\" (click)=\"lgModal.hide()\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n        <h4 class=\"modal-title\">Large modal</h4>\n      </div>\n      <div class=\"modal-body\">\n        <div class=\"row\">\n          <fm-signature class=\"col-sm-4\"></fm-signature>\n          <div class=\"col-sm-4\">\n            <p>item 1: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been\n              the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and\n              scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into\n              electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release\n              of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software\n              like Aldus PageMaker including versions of Lorem Ipsum.</p>\n          </div>\n          <div class=\"col-sm-4\">\n            <p>item 2: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been\n              the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and\n              scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into\n              electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release\n              of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software\n              like Aldus PageMaker including versions of Lorem Ipsum.</p>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n\n"
 
 /***/ },
 /* 654 */
 /***/ function(module, exports) {
 
-module.exports = "<canvas id=\"canvas\" #signatureCanvas class=\"signature\"\n        (mousedown)=\"onMousedown($event)\" (mouseout)=\"onMouseout($event)\" (mousemove)=\"onMouseMove($event)\"\n        (mouseup)=\"onMouseUp($event)\"\n\n        (touchstart)=\"onMousedown($event)\" (touchmove)=\"onMouseMove($event)\" (touchend)=\"onMouseUp($event)\">\n\n  Sorry, your browser doesn't support the &lt;canvas&gt; element.\n</canvas>\n<div class=\"signature-footer\">\n  <button type=\"button\" class=\"btn btn-default\" (click)=\"reset()\">Zurücksetzen</button>\n  <button type=\"button\" class=\"btn btn-primary pull-right\" data-action=\"save\">Save</button>\n</div>\n"
+module.exports = "<canvas id=\"canvas\" #signatureCanvas class=\"signature\">\n  Sorry, your browser doesn't support the &lt;canvas&gt; element.\n</canvas>\n<div class=\"signature-footer\">\n  <button type=\"button\" class=\"btn btn-default\" (click)=\"reset()\">Zurücksetzen</button>\n  <button type=\"button\" class=\"btn btn-primary pull-right\" data-action=\"save\">Save</button>\n</div>\n<div>\n  Touch has value: {{touch}}\n</div>\n"
 
 /***/ },
 /* 655 */
