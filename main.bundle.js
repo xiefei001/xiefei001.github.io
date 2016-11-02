@@ -56975,7 +56975,7 @@ var LogicalPoint = (function () {
 }());
 var FmSignatureComponent = (function () {
     function FmSignatureComponent() {
-        this.penColor = 'black';
+        this.penColor = 'blue';
         this.backgroundColor = 'rgba(0,0,0,0)';
         // default width=300 and height= 150
         this.canvasLogicalWidth = 300;
@@ -56998,92 +56998,48 @@ var FmSignatureComponent = (function () {
             this.canvasLogicalHeight = height;
         }
         this.ctx = canvas.getContext("2d");
-        //canvas.style.msTouchAction = 'none';
-        //canvas.style.touchAction = 'none';
+        var self = this;
         canvas.addEventListener('touchstart', function (event) {
-            _this.touch = 'dddddddddddddddddddddddddddddddd';
-            // Mit einem Finger.
+            // Mit einem Finger, Multitouch unterdrücken.
             if (event.targetTouches.length === 1) {
-                var touch = event.changedTouches[0];
-                if (touch.target === _this.signatureCanvas.nativeElement && !_this.drawing) {
-                    _this.drawing = true;
-                    var canvasRect = _this.signatureCanvas.nativeElement.getBoundingClientRect();
-                    _this.ratePxToLogicalPointWidth = (canvasRect.right - canvasRect.left) / _this.canvasLogicalWidth;
-                    _this.ratePxToLogicalPointHeight = (canvasRect.bottom - canvasRect.top) / _this.canvasLogicalHeight;
-                    _this.currLogicalPoint = _this.getCurrentLogicalPointForEvent(event);
-                    _this.touch = 'dddddd' + event.targetTouches.length + "target ist canvas";
-                    event.preventDefault();
-                }
+                var touchEvent = event.changedTouches[0];
+                self.onMousedown(touchEvent);
+                _this.touch = 'touch started';
             }
         });
         canvas.addEventListener('touchmove', function (event) {
-            if (_this.drawing) {
-                var touch = event.changedTouches[0];
-                var newPoint = _this.getCurrentLogicalPointForEvent(touch);
-                _this.ctx.beginPath();
-                // draw line from current point to new point
-                _this.ctx.moveTo(_this.currLogicalPoint.x, _this.currLogicalPoint.y);
-                _this.ctx.lineTo(newPoint.x, newPoint.y);
-                _this.ctx.strokeStyle = 'blue';
-                _this.ctx.lineWidth = 2;
-                _this.ctx.stroke();
-                // set current point to the new point.
-                _this.currLogicalPoint = newPoint;
-                event.preventDefault();
+            if (event.targetTouches.length === 1) {
+                var touchEvent = event.changedTouches[0];
+                self.onMousemove(touchEvent);
+                _this.touch = 'touch moved';
             }
-            _this.touch = 'touch moved';
         });
         canvas.addEventListener('touchcancel', function (event) {
             _this.touch = 'touch cancled';
         });
         canvas.addEventListener('touchend', function (event) {
-            var touch = event.changedTouches[0];
-            if (touch.target === _this.signatureCanvas.nativeElement && _this.drawing) {
-                _this.drawing = false;
-                event.preventDefault();
+            if (event.targetTouches.length === 1) {
+                var touchEvent = event.changedTouches[0];
+                self.onMouseUp(touchEvent);
+                _this.touch = 'touch end';
             }
-            _this.touch = 'touch end';
-        });
-        canvas.addEventListener('mousedown', function (event) {
-        });
-        canvas.addEventListener('mousemove', function (event) {
         });
     };
     FmSignatureComponent.prototype.onMousedown = function (event) {
-        this.touch = 'cccccccccccc';
+        if (event.target === this.signatureCanvas.nativeElement && !this.drawing) {
+            this.drawing = true;
+            this.currLogicalPoint = this.getCurrentLogicalPointForEvent(event);
+            event.preventDefault();
+        }
     };
     FmSignatureComponent.prototype.onMousemove = function (event) {
-        this.touch = 'mouse moved';
-    };
-    /**
-     * Determine ratePxToLogicalPointWidth and ratePxToLogicalPointHeight and Start Point.
-     * @param event
-     */
-    /*onMousedown(event: any) {
-  
-     this.touch = 'touched';
-     if (event.target === this.signatureCanvas.nativeElement && !this.drawing) {
-     this.drawing = true;
-     let canvasRect = this.signatureCanvas.nativeElement.getBoundingClientRect();
-  
-  
-     this.ratePxToLogicalPointWidth = (canvasRect.right - canvasRect.left) / this.canvasLogicalWidth;
-     this.ratePxToLogicalPointHeight = (canvasRect.bottom - canvasRect.top) / this.canvasLogicalHeight;
-     this.currLogicalPoint = this.getCurrentLogicalPointForEvent(event);
-  
-     event.preventDefault();
-     }
-     }*/
-    /**
-     *   this._handleTouchStart = function (event) {
-              if (event.targetTouches.length == 1) {
-                  var touch = event.changedTouches[0];
-                  self._strokeBegin(touch);
-               }
-          };
-     */
-    FmSignatureComponent.prototype.onMouseDown = function (event) {
-        this.touch = 'dddddd';
+        if (this.drawing) {
+            var newPoint = this.getCurrentLogicalPointForEvent(event);
+            this.drawLineFromCurrentPointTo(newPoint);
+            // set current point to the new point.
+            this.currLogicalPoint = newPoint;
+            event.preventDefault();
+        }
     };
     FmSignatureComponent.prototype.onMouseout = function (event) {
         if (event.target === this.signatureCanvas.nativeElement && this.drawing) {
@@ -57097,31 +57053,23 @@ var FmSignatureComponent = (function () {
             event.preventDefault();
         }
     };
-    FmSignatureComponent.prototype.onMouseMove = function (event) {
-        if (this.drawing) {
-            var newPoint = this.getCurrentLogicalPointForEvent(event);
-            this.ctx.beginPath();
-            // draw line from current point to new point
-            this.ctx.moveTo(this.currLogicalPoint.x, this.currLogicalPoint.y);
-            this.ctx.lineTo(newPoint.x, newPoint.y);
-            this.ctx.strokeStyle = 'blue';
-            this.ctx.lineWidth = 2;
-            this.ctx.stroke();
-            // set current point to the new point.
-            this.currLogicalPoint = newPoint;
-        }
-    };
-    FmSignatureComponent.prototype.onTouchMove = function (event) {
-        this.touch = 'cccccccccccccc';
-    };
     FmSignatureComponent.prototype.reset = function () {
         var canvas = this.signatureCanvas.nativeElement;
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
     };
+    FmSignatureComponent.prototype.drawLineFromCurrentPointTo = function (newPoint) {
+        this.ctx.beginPath();
+        // draw line from current point to new point
+        this.ctx.moveTo(this.currLogicalPoint.x, this.currLogicalPoint.y);
+        this.ctx.lineTo(newPoint.x, newPoint.y);
+        this.ctx.strokeStyle = this.penColor;
+        this.ctx.lineWidth = 2;
+        this.ctx.stroke();
+    };
     FmSignatureComponent.prototype.getCurrentLogicalPointForEvent = function (event) {
         var canvasRect = this.signatureCanvas.nativeElement.getBoundingClientRect();
-        var x = (event.clientX - canvasRect.left) / this.ratePxToLogicalPointWidth;
-        var y = (event.clientY - canvasRect.top) / this.ratePxToLogicalPointHeight;
+        var x = ((event.clientX - canvasRect.left) / (canvasRect.right - canvasRect.left)) * this.canvasLogicalWidth;
+        var y = ((event.clientY - canvasRect.top) / (canvasRect.bottom - canvasRect.top)) * this.canvasLogicalHeight;
         return new LogicalPoint(x, y);
     };
     __decorate([
@@ -60353,7 +60301,7 @@ module.exports = "<h1>\n  {{title}}\n</h1>\n<input type=\"file\" accept=\"image/
 /* 654 */
 /***/ function(module, exports) {
 
-module.exports = "<canvas id=\"canvas\" #signatureCanvas class=\"signature\"\n(mousemove)=\"onMousemove($event)\" (mousedown)=\"onMousedown($event)\">\n  Sorry, your browser doesn't support the &lt;canvas&gt; element.\n</canvas>\n<div class=\"signature-footer\">\n  <button type=\"button\" class=\"btn btn-default\" (click)=\"reset()\">Zurücksetzen</button>\n  <button type=\"button\" class=\"btn btn-primary pull-right\" data-action=\"save\">Save</button>\n</div>\n<div>\n  Touch has value: {{touch}}\n</div>\n"
+module.exports = "<canvas id=\"canvas\" #signatureCanvas class=\"signature\"\n        (mousedown)=\"onMousedown($event)\" (mousemove)=\"onMousemove($event)\"\n        (mouseout)=\"onMouseout($event)\" (mouseup)=\"onMouseUp($event)\">\n  Sorry, your browser doesn't support the &lt;canvas&gt; element.\n</canvas>\n<div class=\"signature-footer\">\n  <button type=\"button\" class=\"btn btn-default\" (click)=\"reset()\">Zurücksetzen</button>\n  <button type=\"button\" class=\"btn btn-primary pull-right\" data-action=\"save\">Save</button>\n</div>\n<div>\n  Touch has value: {{touch}}\n</div>\n"
 
 /***/ },
 /* 655 */
