@@ -57011,6 +57011,7 @@ var FmSignatureComponent = (function () {
         canvas.style.msTouchAction = 'none';
         canvas.style.touchAction = 'none';
         canvas.addEventListener('touchstart', function (event) {
+            _this.touch = 'dddddddddddddddddddddddddddddddd';
             if (event.targetTouches.length === 1) {
                 var touch = event.changedTouches[0];
             }
