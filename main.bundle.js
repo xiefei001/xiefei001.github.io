@@ -57023,6 +57023,15 @@ var FmSignatureComponent = (function () {
                 }
             }
         });
+        canvas.addEventListener('touchmove', function (event) {
+            _this.touch = 'touch moved';
+        });
+        canvas.addEventListener('touchcancel', function (event) {
+            _this.touch = 'touch cancled';
+        });
+        canvas.addEventListener('touchend', function (event) {
+            _this.touch = 'touch end';
+        });
         canvas.addEventListener('mousedown', function (event) {
             _this.touch = 'cccccccccccc';
         });
