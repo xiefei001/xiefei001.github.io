@@ -57004,9 +57004,9 @@ var FmSignatureComponent = (function () {
         }
         this.ctx = canvas.getContext("2d");
         var canvasElement = document.getElementById('canvas');
-        canvasElement.addEventListener('touchstart', function (event) {
-            _this.touch = 'eeeeeeeeeeeee';
-        });
+        /*canvasElement.addEventListener('touchstart', (event:any)=>{
+          this.touch = 'eeeeeeeeeeeee';
+        }); */
         canvas.style.msTouchAction = 'none';
         canvas.style.touchAction = 'none';
         canvas.addEventListener('touchstart', function (event) {
@@ -57021,17 +57021,21 @@ var FmSignatureComponent = (function () {
      * Determine ratePxToLogicalPointWidth and ratePxToLogicalPointHeight and Start Point.
      * @param event
      */
-    FmSignatureComponent.prototype.onMousedown = function (event) {
+    /*onMousedown(event: any) {
+  
         this.touch = 'touched';
         if (event.target === this.signatureCanvas.nativeElement && !this.drawing) {
-            this.drawing = true;
-            var canvasRect = this.signatureCanvas.nativeElement.getBoundingClientRect();
-            this.ratePxToLogicalPointWidth = (canvasRect.right - canvasRect.left) / this.canvasLogicalWidth;
-            this.ratePxToLogicalPointHeight = (canvasRect.bottom - canvasRect.top) / this.canvasLogicalHeight;
-            this.currLogicalPoint = this.getCurrentLogicalPointForEvent(event);
-            event.preventDefault();
+          this.drawing = true;
+          let canvasRect = this.signatureCanvas.nativeElement.getBoundingClientRect();
+  
+  
+          this.ratePxToLogicalPointWidth = (canvasRect.right - canvasRect.left) / this.canvasLogicalWidth;
+          this.ratePxToLogicalPointHeight = (canvasRect.bottom - canvasRect.top) / this.canvasLogicalHeight;
+          this.currLogicalPoint = this.getCurrentLogicalPointForEvent(event);
+  
+          event.preventDefault();
         }
-    };
+    }*/
     /**
      *   this._handleTouchStart = function (event) {
               if (event.targetTouches.length == 1) {
@@ -57043,14 +57047,14 @@ var FmSignatureComponent = (function () {
   
      * @param event
      */
-    FmSignatureComponent.prototype.onTouchStart = function (event) {
-        this.touch = 'aaaaaaaaaaaaaaaaaaaaa';
-        if (event.targetTouches.length === 1) {
-            var touch = event.changedTouches[0];
-            this.touch = event.changedTouches[0];
-            this.onMousedown(touch);
-        }
-    };
+    /* onTouchStart(event: any) {
+       this.touch = 'aaaaaaaaaaaaaaaaaaaaa';
+       if (event.targetTouches.length === 1) {
+         let touch: Touch = event.changedTouches[0];
+         this.touch = event.changedTouches[0];
+         this.onMousedown(touch);
+       }
+     }*/
     FmSignatureComponent.prototype.onMouseout = function (event) {
         if (event.target === this.signatureCanvas.nativeElement && this.drawing) {
             this.drawing = false;
@@ -60326,7 +60330,7 @@ module.exports = "<h1>\n  {{title}}\n</h1>\n<input type=\"file\" accept=\"image/
 /* 657 */
 /***/ function(module, exports) {
 
-module.exports = "<canvas id=\"canvas\" #signatureCanvas class=\"signature\"\n        (mousedown)=\"onMousedown($event)\" (mouseout)=\"onMouseout($event)\" (mousemove)=\"onMouseMove($event)\"\n        (mouseup)=\"onMouseUp($event)\">\n\n  Sorry, your browser doesn't support the &lt;canvas&gt; element.\n</canvas>\n<div class=\"signature-footer\">\n  <button type=\"button\" class=\"btn btn-default\" (click)=\"reset()\">Zurücksetzen</button>\n  <button type=\"button\" class=\"btn btn-primary pull-right\" data-action=\"save\">Save</button>\n</div>\n<div>\n  Touch has value: {{touch}}\n</div>\n"
+module.exports = "<canvas id=\"canvas\" #signatureCanvas class=\"signature\">\n  Sorry, your browser doesn't support the &lt;canvas&gt; element.\n</canvas>\n<div class=\"signature-footer\">\n  <button type=\"button\" class=\"btn btn-default\" (click)=\"reset()\">Zurücksetzen</button>\n  <button type=\"button\" class=\"btn btn-primary pull-right\" data-action=\"save\">Save</button>\n</div>\n<div>\n  Touch has value: {{touch}}\n</div>\n"
 
 /***/ },
 /* 658 */
