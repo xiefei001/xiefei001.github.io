@@ -57014,8 +57014,8 @@ var FmSignatureComponent = (function () {
             _this.touch = 'dddddddddddddddddddddddddddddddd';
             if (event.targetTouches.length === 1) {
                 var touch = event.changedTouches[0];
+                _this.touch = 'dddddd' + event.targetTouches.length + touch.target;
             }
-            _this.touch = 'dddddd' + event.targetTouches.length + " ";
         });
         canvas.addEventListener('mousedown', function (event) {
             _this.touch = 'cccccccccccc';
