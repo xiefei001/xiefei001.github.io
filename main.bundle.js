@@ -56983,10 +56983,6 @@ var FmSignatureComponent = (function () {
         this.drawing = false;
         this.touch = '11111111111111';
     }
-    /**@HostListener('touchstart', ['$event'])
-     onTouch(event: any) {
-      this.touch = 'eeeeeeeeeeeee';
-    }*/
     /**
      * Init logical width and height of the canvas.
      */
@@ -57002,12 +56998,8 @@ var FmSignatureComponent = (function () {
             this.canvasLogicalHeight = height;
         }
         this.ctx = canvas.getContext("2d");
-        var canvasElement = document.getElementById('canvas');
-        /*canvasElement.addEventListener('touchstart', (event:any)=>{
-         this.touch = 'eeeeeeeeeeeee';
-         }); */
-        canvas.style.msTouchAction = 'none';
-        canvas.style.touchAction = 'none';
+        //canvas.style.msTouchAction = 'none';
+        //canvas.style.touchAction = 'none';
         canvas.addEventListener('touchstart', function (event) {
             _this.touch = 'dddddddddddddddddddddddddddddddd';
             // Mit einem Finger.
@@ -57053,15 +57045,15 @@ var FmSignatureComponent = (function () {
             _this.touch = 'touch end';
         });
         canvas.addEventListener('mousedown', function (event) {
-            _this.touch = 'cccccccccccc';
         });
         canvas.addEventListener('mousemove', function (event) {
-            _this.touch = 'mouse moved';
         });
-        //canvas.addEventListener('touchmove', this.onTouchMove);
-        /*document.addEventListener('touchstart', (event: any)=> {
-         this.touch = 'dddddddddddddd';
-         });*/
+    };
+    FmSignatureComponent.prototype.onMousedown = function (event) {
+        this.touch = 'cccccccccccc';
+    };
+    FmSignatureComponent.prototype.onMousemove = function (event) {
+        this.touch = 'mouse moved';
     };
     /**
      * Determine ratePxToLogicalPointWidth and ratePxToLogicalPointHeight and Start Point.
@@ -60361,7 +60353,7 @@ module.exports = "<h1>\n  {{title}}\n</h1>\n<input type=\"file\" accept=\"image/
 /* 654 */
 /***/ function(module, exports) {
 
-module.exports = "<canvas id=\"canvas\" #signatureCanvas class=\"signature\">\n  Sorry, your browser doesn't support the &lt;canvas&gt; element.\n</canvas>\n<div class=\"signature-footer\">\n  <button type=\"button\" class=\"btn btn-default\" (click)=\"reset()\">Zurücksetzen</button>\n  <button type=\"button\" class=\"btn btn-primary pull-right\" data-action=\"save\">Save</button>\n</div>\n<div>\n  Touch has value: {{touch}}\n</div>\n"
+module.exports = "<canvas id=\"canvas\" #signatureCanvas class=\"signature\"\n(mousemove)=\"onMousemove($event)\" (mousedown)=\"onMousedown($event)\">\n  Sorry, your browser doesn't support the &lt;canvas&gt; element.\n</canvas>\n<div class=\"signature-footer\">\n  <button type=\"button\" class=\"btn btn-default\" (click)=\"reset()\">Zurücksetzen</button>\n  <button type=\"button\" class=\"btn btn-primary pull-right\" data-action=\"save\">Save</button>\n</div>\n<div>\n  Touch has value: {{touch}}\n</div>\n"
 
 /***/ },
 /* 655 */
