@@ -57012,6 +57012,7 @@ var FmSignatureComponent = (function () {
         canvas.style.touchAction = 'none';
         canvas.addEventListener('touchstart', function (event) {
             _this.touch = 'dddddddddddddddddddddddddddddddd';
+            // Mit einem Finger.
             if (event.targetTouches.length === 1) {
                 var touch = event.changedTouches[0];
                 if (touch.target === _this.signatureCanvas.nativeElement && !_this.drawing) {
@@ -57038,6 +57039,7 @@ var FmSignatureComponent = (function () {
                 _this.ctx.stroke();
                 // set current point to the new point.
                 _this.currLogicalPoint = newPoint;
+                event.preventDefault();
             }
             _this.touch = 'touch moved';
         });
@@ -57045,6 +57047,11 @@ var FmSignatureComponent = (function () {
             _this.touch = 'touch cancled';
         });
         canvas.addEventListener('touchend', function (event) {
+            var touch = event.changedTouches[0];
+            if (touch.target === _this.signatureCanvas.nativeElement && _this.drawing) {
+                _this.drawing = false;
+                event.preventDefault();
+            }
             _this.touch = 'touch end';
         });
         canvas.addEventListener('mousedown', function (event) {
