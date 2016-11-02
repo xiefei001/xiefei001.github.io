@@ -57004,20 +57004,25 @@ var FmSignatureComponent = (function () {
         }
         this.ctx = canvas.getContext("2d");
         var canvasElement = document.getElementById('canvas');
-        canvasElement.addEventListener('touchstart', this.onTouchStart, false);
+        canvasElement.addEventListener('touchstart', function (event) {
+            _this.touch = 'eeeeeeeeeeeee';
+        });
         canvas.style.msTouchAction = 'none';
         canvas.style.touchAction = 'none';
-        canvas.addEventListener('touchstart', this.onTouchStart);
-        canvas.addEventListener('touchmove', this.onTouchMove);
-        document.addEventListener('touchstart', function (event) {
+        canvas.addEventListener('touchstart', function (event) {
             _this.touch = 'dddddddddddddd';
         });
+        canvas.addEventListener('touchmove', this.onTouchMove);
+        /*document.addEventListener('touchstart', (event: any)=> {
+          this.touch = 'dddddddddddddd';
+        });*/
     };
     /**
      * Determine ratePxToLogicalPointWidth and ratePxToLogicalPointHeight and Start Point.
      * @param event
      */
     FmSignatureComponent.prototype.onMousedown = function (event) {
+        this.touch = 'touched';
         if (event.target === this.signatureCanvas.nativeElement && !this.drawing) {
             this.drawing = true;
             var canvasRect = this.signatureCanvas.nativeElement.getBoundingClientRect();
