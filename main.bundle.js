@@ -56993,7 +56993,8 @@ var FmSignatureComponent = (function () {
      */
     FmSignatureComponent.prototype.ngAfterViewInit = function () {
         var _this = this;
-        window.addEventListener('touchmove', function (event) {
+        document.addEventListener('touchmove', function (event) {
+            _this.touch = 'ggggggggggg';
             event.preventDefault();
         });
         var canvas = this.signatureCanvas.nativeElement;
@@ -60311,7 +60312,7 @@ process.umask = function() { return 0; };
 /* 654 */
 /***/ function(module, exports) {
 
-module.exports = "\n\n"
+module.exports = "html, body {\n  height: 100%;\n  width: 100%;\n  overflow: auto;\n}\n\n"
 
 /***/ },
 /* 655 */
