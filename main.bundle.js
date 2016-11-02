@@ -57014,16 +57014,31 @@ var FmSignatureComponent = (function () {
             _this.touch = 'dddddddddddddddddddddddddddddddd';
             if (event.targetTouches.length === 1) {
                 var touch = event.changedTouches[0];
-                if (touch.target === _this.signatureCanvas.nativeElement) {
+                if (touch.target === _this.signatureCanvas.nativeElement && !_this.drawing) {
+                    _this.drawing = true;
+                    var canvasRect = _this.signatureCanvas.nativeElement.getBoundingClientRect();
+                    _this.ratePxToLogicalPointWidth = (canvasRect.right - canvasRect.left) / _this.canvasLogicalWidth;
+                    _this.ratePxToLogicalPointHeight = (canvasRect.bottom - canvasRect.top) / _this.canvasLogicalHeight;
+                    _this.currLogicalPoint = _this.getCurrentLogicalPointForEvent(event);
                     _this.touch = 'dddddd' + event.targetTouches.length + "target ist canvas";
                     event.preventDefault();
-                }
-                else {
-                    _this.touch = 'dddddd' + event.targetTouches.length + "target ist canvas";
                 }
             }
         });
         canvas.addEventListener('touchmove', function (event) {
+            if (_this.drawing) {
+                var touch = event.changedTouches[0];
+                var newPoint = _this.getCurrentLogicalPointForEvent(touch);
+                _this.ctx.beginPath();
+                // draw line from current point to new point
+                _this.ctx.moveTo(_this.currLogicalPoint.x, _this.currLogicalPoint.y);
+                _this.ctx.lineTo(newPoint.x, newPoint.y);
+                _this.ctx.strokeStyle = 'blue';
+                _this.ctx.lineWidth = 2;
+                _this.ctx.stroke();
+                // set current point to the new point.
+                _this.currLogicalPoint = newPoint;
+            }
             _this.touch = 'touch moved';
         });
         canvas.addEventListener('touchcancel', function (event) {
