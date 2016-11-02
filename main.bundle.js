@@ -57005,6 +57005,7 @@ var FmSignatureComponent = (function () {
                 var touchEvent = event.changedTouches[0];
                 self.onMousedown(touchEvent);
                 _this.touch = 'touch started';
+                event.preventDefault();
             }
         });
         canvas.addEventListener('touchmove', function (event) {
@@ -57012,16 +57013,19 @@ var FmSignatureComponent = (function () {
                 var touchEvent = event.changedTouches[0];
                 self.onMousemove(touchEvent);
                 _this.touch = 'touch moved';
+                event.preventDefault();
             }
         });
         canvas.addEventListener('touchcancel', function (event) {
             _this.touch = 'touch cancled';
+            event.preventDefault();
         });
         canvas.addEventListener('touchend', function (event) {
             if (event.targetTouches.length === 1) {
                 var touchEvent = event.changedTouches[0];
                 self.onMouseUp(touchEvent);
                 _this.touch = 'touch end';
+                event.preventDefault();
             }
         });
     };
@@ -57029,7 +57033,6 @@ var FmSignatureComponent = (function () {
         if (event.target === this.signatureCanvas.nativeElement && !this.drawing) {
             this.drawing = true;
             this.currLogicalPoint = this.getCurrentLogicalPointForEvent(event);
-            event.preventDefault();
         }
     };
     FmSignatureComponent.prototype.onMousemove = function (event) {
@@ -57038,19 +57041,16 @@ var FmSignatureComponent = (function () {
             this.drawLineFromCurrentPointTo(newPoint);
             // set current point to the new point.
             this.currLogicalPoint = newPoint;
-            event.preventDefault();
         }
     };
     FmSignatureComponent.prototype.onMouseout = function (event) {
         if (event.target === this.signatureCanvas.nativeElement && this.drawing) {
             this.drawing = false;
-            event.preventDefault();
         }
     };
     FmSignatureComponent.prototype.onMouseUp = function (event) {
         if (event.target === this.signatureCanvas.nativeElement && this.drawing) {
             this.drawing = false;
-            event.preventDefault();
         }
     };
     FmSignatureComponent.prototype.reset = function () {
