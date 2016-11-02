@@ -57021,11 +57021,9 @@ var FmSignatureComponent = (function () {
             event.preventDefault();
         });
         canvas.addEventListener('touchend', function (event) {
-            _this.touch = 'touch end first' + event.changedTouches.length;
-            if (event.targetTouches.length === 1) {
+            if (event.changedTouches.length === 1) {
                 var touchEvent = event.changedTouches[0];
-                //self.onMouseup(touchEvent);
-                _this.drawing = false;
+                self.onMouseup(touchEvent);
                 _this.touch = 'touch end' + _this.drawing;
                 event.preventDefault();
             }
