@@ -57014,7 +57014,13 @@ var FmSignatureComponent = (function () {
             _this.touch = 'dddddddddddddddddddddddddddddddd';
             if (event.targetTouches.length === 1) {
                 var touch = event.changedTouches[0];
-                _this.touch = 'dddddd' + event.targetTouches.length + touch.target;
+                if (touch.target === _this.signatureCanvas.nativeElement) {
+                    _this.touch = 'dddddd' + event.targetTouches.length + "target ist canvas";
+                    event.preventDefault();
+                }
+                else {
+                    _this.touch = 'dddddd' + event.targetTouches.length + "target ist canvas";
+                }
             }
         });
         canvas.addEventListener('mousedown', function (event) {
