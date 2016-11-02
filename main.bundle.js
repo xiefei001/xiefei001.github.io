@@ -57024,7 +57024,8 @@ var FmSignatureComponent = (function () {
             _this.touch = 'touch end first' + event.changedTouches.length;
             if (event.targetTouches.length === 1) {
                 var touchEvent = event.changedTouches[0];
-                self.onMouseUp(touchEvent);
+                //self.onMouseup(touchEvent);
+                _this.drawing = false;
                 _this.touch = 'touch end' + _this.drawing;
                 event.preventDefault();
             }
@@ -57049,7 +57050,7 @@ var FmSignatureComponent = (function () {
             this.drawing = false;
         }
     };
-    FmSignatureComponent.prototype.onMouseUp = function (event) {
+    FmSignatureComponent.prototype.onMouseup = function (event) {
         if (event.target === this.signatureCanvas.nativeElement && this.drawing) {
             this.drawing = false;
         }
