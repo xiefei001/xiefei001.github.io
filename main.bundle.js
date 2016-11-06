@@ -26928,7 +26928,7 @@ var FmCanvasDirective = (function () {
                 context.lineTo(newPoint.x, newPoint.y);
                 context.strokeStyle = this._defaultPaintColor;
                 context.lineWidth = this._defaultLineWidth;
-                console.log("painting: " + this._defaultPaintColor + this._defaultLineWidth);
+                this.touchStatus.emit("painting: " + this._defaultPaintColor + this._defaultLineWidth);
                 context.stroke();
             }
             else {
@@ -26960,7 +26960,6 @@ var FmCanvasDirective = (function () {
             var touch = event.changedTouches[0];
             func(touch);
             event.preventDefault();
-            this.touchStatus.emit('touch event executed');
         }
     };
     FmCanvasDirective.prototype.clear = function () {
