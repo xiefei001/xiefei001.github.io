@@ -26958,9 +26958,9 @@ var FmCanvasDirective = (function () {
     FmCanvasDirective.prototype.genericTouchEventHandler = function (event, func) {
         if (event.changedTouches.length === 1) {
             var touch = event.changedTouches[0];
-            this.touchStatus.emit('func: ' + func);
             func(touch);
             event.preventDefault();
+            this.touchStatus.emit('touch event executed');
         }
     };
     FmCanvasDirective.prototype.clear = function () {
