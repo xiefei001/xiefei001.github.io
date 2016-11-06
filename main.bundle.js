@@ -26963,6 +26963,7 @@ var FmCanvasDirective = (function () {
             var newPoint = this.getLogicalPointFromEvent(event);
             var context = this.element.nativeElement.getContext('2d');
             context.beginPath();
+            context.lineJoin = 'round';
             if (this.mode === 'pen') {
                 context.globalCompositeOperation = "source-over";
                 // draw line from current point to new point
@@ -26970,7 +26971,7 @@ var FmCanvasDirective = (function () {
                 context.lineTo(newPoint.x, newPoint.y);
                 context.strokeStyle = this._defaultPaintColor;
                 context.lineWidth = this._defaultLineWidth;
-                this.touchStatus.emit("painting: " + this._defaultPaintColor + this._defaultLineWidth);
+                context.closePath();
                 context.stroke();
             }
             else {
