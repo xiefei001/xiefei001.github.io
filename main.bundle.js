@@ -26878,17 +26878,61 @@ var FmCanvasDirective = (function () {
         this.drawing = false;
         this.mode = 'pen';
         var self = this;
-        element.nativeElement.addEventListener('touchstart', function () {
-            _this.genericTouchEventHandler(event, self.onMousedown);
+        element.nativeElement.addEventListener('touchstart', function (event) {
+            if (event.changedTouches.length === 1) {
+                var touch = event.changedTouches[0];
+                if (touch.target === _this.element.nativeElement && !_this.drawing) {
+                    _this.drawing = true;
+                    _this.currentLogicalPoint = _this.getLogicalPointFromEvent(touch);
+                }
+                event.preventDefault();
+            }
         });
-        element.nativeElement.addEventListener('touchmove', function () {
-            _this.genericTouchEventHandler(event, self.onMousemove);
+        element.nativeElement.addEventListener('touchmove', function (event) {
+            if (event.changedTouches.length === 1) {
+                var touch = event.changedTouches[0];
+                if (touch.target === _this.element.nativeElement && _this.drawing) {
+                    var newPoint = _this.getLogicalPointFromEvent(touch);
+                    var context = _this.element.nativeElement.getContext('2d');
+                    context.beginPath();
+                    if (_this.mode === 'pen') {
+                        context.globalCompositeOperation = "source-over";
+                        // draw line from current point to new point
+                        context.moveTo(_this.currentLogicalPoint.x, _this.currentLogicalPoint.y);
+                        context.lineTo(newPoint.x, newPoint.y);
+                        context.strokeStyle = _this._defaultPaintColor;
+                        context.lineWidth = _this._defaultLineWidth;
+                        context.stroke();
+                    }
+                    else {
+                        // erase Mode
+                        context.globalCompositeOperation = "destination-out";
+                        context.arc(newPoint.x, newPoint.y, 8, 0, Math.PI * 2, false);
+                        context.fill();
+                    }
+                    // set current point to the new point.
+                    _this.currentLogicalPoint = newPoint;
+                }
+                event.preventDefault();
+            }
         });
-        element.nativeElement.addEventListener('touchend', function () {
-            _this.genericTouchEventHandler(event, self.onMouseup);
+        element.nativeElement.addEventListener('touchend', function (event) {
+            if (event.changedTouches.length === 1) {
+                var touch = event.changedTouches[0];
+                if (touch.target === _this.element.nativeElement && _this.drawing) {
+                    _this.drawing = false;
+                }
+                event.preventDefault();
+            }
         });
-        element.nativeElement.addEventListener('touchleave', function () {
-            _this.genericTouchEventHandler(event, self.onMouseup);
+        element.nativeElement.addEventListener('touchleave', function (event) {
+            if (event.changedTouches.length === 1) {
+                var touch = event.changedTouches[0];
+                if (touch.target === _this.element.nativeElement && _this.drawing) {
+                    _this.drawing = false;
+                }
+                event.preventDefault();
+            }
         });
     }
     Object.defineProperty(FmCanvasDirective.prototype, "defaultPaintColor", {
@@ -26911,9 +26955,7 @@ var FmCanvasDirective = (function () {
         if (event.target === this.element.nativeElement && !this.drawing) {
             this.drawing = true;
             this.currentLogicalPoint = this.getLogicalPointFromEvent(event);
-            if (event.preventDefault) {
-                event.preventDefault();
-            }
+            event.preventDefault();
         }
     };
     FmCanvasDirective.prototype.onMousemove = function (event) {
