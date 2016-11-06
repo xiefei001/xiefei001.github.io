@@ -26880,6 +26880,7 @@ var FmCanvasDirective = (function () {
         var self = this;
         element.nativeElement.addEventListener('touchstart', function (event) {
             if (event.changedTouches.length === 1) {
+                _this.test();
                 var touch = event.changedTouches[0];
                 if (touch.target === _this.element.nativeElement && !_this.drawing) {
                     _this.drawing = true;
@@ -26936,6 +26937,9 @@ var FmCanvasDirective = (function () {
             }
         });
     }
+    FmCanvasDirective.prototype.test = function () {
+        this.touchStatus.emit("this is: " + this);
+    };
     Object.defineProperty(FmCanvasDirective.prototype, "defaultPaintColor", {
         set: function (colorName) {
             this._defaultPaintColor = colorName || this._defaultPaintColor;
@@ -26967,7 +26971,7 @@ var FmCanvasDirective = (function () {
                 //context.globalCompositeOperation = "source-over";
                 //context.lineJoin = 'round';
                 // draw line from current point to new point
-                //context.beginPath();
+                context.beginPath();
                 context.moveTo(this.currentLogicalPoint.x, this.currentLogicalPoint.y);
                 context.lineCap = 'round';
                 context.strokeStyle = this._defaultPaintColor;
