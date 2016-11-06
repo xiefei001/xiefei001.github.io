@@ -26972,7 +26972,6 @@ var FmCanvasDirective = (function () {
                 context.lineTo(newPoint.x, newPoint.y);
                 context.strokeStyle = this._defaultPaintColor;
                 context.lineWidth = this._defaultLineWidth;
-                context.closePath();
                 context.stroke();
             }
             else {
