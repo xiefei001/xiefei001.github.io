@@ -26878,7 +26878,16 @@ var FmCanvasDirective = (function () {
         this.drawing = false;
         this.mode = 'pen';
         element.nativeElement.addEventListener('touchstart', function () {
-            _this.touchStatus.emit("touchstart only on event listener");
+            _this.genericTouchEventHandler(event, _this.onMousedown);
+        });
+        element.nativeElement.addEventListener('touchmove', function () {
+            _this.genericTouchEventHandler(event, _this.onMousemove);
+        });
+        element.nativeElement.addEventListener('touchend', function () {
+            _this.genericTouchEventHandler(event, _this.onMouseup);
+        });
+        element.nativeElement.addEventListener('touchleave', function () {
+            _this.genericTouchEventHandler(event, _this.onMouseup);
         });
     }
     Object.defineProperty(FmCanvasDirective.prototype, "defaultPaintColor", {
@@ -26945,16 +26954,6 @@ var FmCanvasDirective = (function () {
             }
         }
     };
-    // ---------------touch Events----------
-    FmCanvasDirective.prototype.onTouchstart = function (event) {
-        this.genericTouchEventHandler(event, this.onMousedown);
-    };
-    FmCanvasDirective.prototype.onTouchmove = function (event) {
-        this.genericTouchEventHandler(event, this.onMousemove);
-    };
-    FmCanvasDirective.prototype.onTouchend = function (event) {
-        this.genericTouchEventHandler(event, this.onMouseup);
-    };
     FmCanvasDirective.prototype.genericTouchEventHandler = function (event, func) {
         this.touchStatus.emit('touch event fired');
         if (event.changedTouches.length === 1) {
@@ -27019,25 +27018,6 @@ var FmCanvasDirective = (function () {
         __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', void 0)
     ], FmCanvasDirective.prototype, "onMouseup", null);
-    __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* HostListener */])('touchstart', ['$event']), 
-        __metadata('design:type', Function), 
-        __metadata('design:paramtypes', [Object]), 
-        __metadata('design:returntype', void 0)
-    ], FmCanvasDirective.prototype, "onTouchstart", null);
-    __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* HostListener */])('touchmove', ['$event']), 
-        __metadata('design:type', Function), 
-        __metadata('design:paramtypes', [Object]), 
-        __metadata('design:returntype', void 0)
-    ], FmCanvasDirective.prototype, "onTouchmove", null);
-    __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* HostListener */])('touchend', ['$event']),
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* HostListener */])('touchleave', ['$event']), 
-        __metadata('design:type', Function), 
-        __metadata('design:paramtypes', [Object]), 
-        __metadata('design:returntype', void 0)
-    ], FmCanvasDirective.prototype, "onTouchend", null);
     FmCanvasDirective = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Directive */])({
             selector: '[fmCanvas]'
