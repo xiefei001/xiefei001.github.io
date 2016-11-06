@@ -26894,14 +26894,14 @@ var FmCanvasDirective = (function () {
                 if (touch.target === _this.element.nativeElement && _this.drawing) {
                     var newPoint = _this.getLogicalPointFromEvent(touch);
                     var context = _this.element.nativeElement.getContext('2d');
-                    context.beginPath();
                     if (_this.mode === 'pen') {
-                        context.globalCompositeOperation = "source-over";
+                        //context.globalCompositeOperation = "source-over";
                         // draw line from current point to new point
-                        context.moveTo(_this.currentLogicalPoint.x, _this.currentLogicalPoint.y);
-                        context.lineTo(newPoint.x, newPoint.y);
+                        context.beginPath();
+                        context.lineCap = 'round';
                         context.strokeStyle = _this._defaultPaintColor;
                         context.lineWidth = _this._defaultLineWidth;
+                        context.lineTo(newPoint.x, newPoint.y);
                         context.stroke();
                     }
                     else {
