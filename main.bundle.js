@@ -26898,6 +26898,7 @@ var FmCanvasDirective = (function () {
                         //context.globalCompositeOperation = "source-over";
                         // draw line from current point to new point
                         context.beginPath();
+                        context.moveTo(_this.currentLogicalPoint.x, _this.currentLogicalPoint.y);
                         context.lineCap = 'round';
                         context.strokeStyle = _this._defaultPaintColor;
                         context.lineWidth = _this._defaultLineWidth;
