@@ -26877,17 +26877,18 @@ var FmCanvasDirective = (function () {
         this._defaultLineWidth = 2;
         this.drawing = false;
         this.mode = 'pen';
+        var self = this;
         element.nativeElement.addEventListener('touchstart', function () {
-            _this.genericTouchEventHandler(event, _this.onMousedown);
+            _this.genericTouchEventHandler(event, self.onMousedown);
         });
         element.nativeElement.addEventListener('touchmove', function () {
-            _this.genericTouchEventHandler(event, _this.onMousemove);
+            _this.genericTouchEventHandler(event, self.onMousemove);
         });
         element.nativeElement.addEventListener('touchend', function () {
-            _this.genericTouchEventHandler(event, _this.onMouseup);
+            _this.genericTouchEventHandler(event, self.onMouseup);
         });
         element.nativeElement.addEventListener('touchleave', function () {
-            _this.genericTouchEventHandler(event, _this.onMouseup);
+            _this.genericTouchEventHandler(event, self.onMouseup);
         });
     }
     Object.defineProperty(FmCanvasDirective.prototype, "defaultPaintColor", {
