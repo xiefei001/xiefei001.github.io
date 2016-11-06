@@ -26962,11 +26962,11 @@ var FmCanvasDirective = (function () {
         if (event.target === this.element.nativeElement && this.drawing) {
             var newPoint = this.getLogicalPointFromEvent(event);
             var context = this.element.nativeElement.getContext('2d');
-            context.beginPath();
             if (this.mode === 'pen') {
                 //context.globalCompositeOperation = "source-over";
                 //context.lineJoin = 'round';
                 // draw line from current point to new point
+                //context.beginPath();
                 context.moveTo(this.currentLogicalPoint.x, this.currentLogicalPoint.y);
                 context.lineCap = 'round';
                 context.strokeStyle = this._defaultPaintColor;
@@ -26975,11 +26975,6 @@ var FmCanvasDirective = (function () {
                 context.stroke();
             }
             else {
-                // erase Mode
-                context.globalCompositeOperation = "destination-out";
-                context.arc(newPoint.x, newPoint.y, 8, 0, Math.PI * 2, false);
-                context.fill();
-                context.closePath();
             }
             // set current point to the new point.
             this.currentLogicalPoint = newPoint;
