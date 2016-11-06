@@ -26963,10 +26963,10 @@ var FmCanvasDirective = (function () {
             var newPoint = this.getLogicalPointFromEvent(event);
             var context = this.element.nativeElement.getContext('2d');
             context.beginPath();
-            context.lineJoin = 'round';
-            context.lineCap = 'round';
             if (this.mode === 'pen') {
                 context.globalCompositeOperation = "source-over";
+                context.lineJoin = 'round';
+                context.lineCap = 'round';
                 // draw line from current point to new point
                 context.moveTo(this.currentLogicalPoint.x, this.currentLogicalPoint.y);
                 context.lineTo(newPoint.x, newPoint.y);
@@ -26980,6 +26980,7 @@ var FmCanvasDirective = (function () {
                 context.globalCompositeOperation = "destination-out";
                 context.arc(newPoint.x, newPoint.y, 8, 0, Math.PI * 2, false);
                 context.fill();
+                context.closePath();
             }
             // set current point to the new point.
             this.currentLogicalPoint = newPoint;
