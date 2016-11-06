@@ -26867,6 +26867,7 @@ var LogicalPoint = (function () {
  */
 var FmCanvasDirective = (function () {
     function FmCanvasDirective(element, renderer) {
+        var _this = this;
         this.element = element;
         this.renderer = renderer;
         this._defaultLogicalWidth = 300;
@@ -26876,6 +26877,9 @@ var FmCanvasDirective = (function () {
         this._defaultLineWidth = 2;
         this.drawing = false;
         this.mode = 'pen';
+        element.nativeElement.addEventListener('touchstart', function () {
+            _this.touchStatus.emit("touchstart only on event listener");
+        });
     }
     Object.defineProperty(FmCanvasDirective.prototype, "defaultPaintColor", {
         set: function (colorName) {
