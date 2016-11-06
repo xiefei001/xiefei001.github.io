@@ -26964,6 +26964,7 @@ var FmCanvasDirective = (function () {
             var context = this.element.nativeElement.getContext('2d');
             context.beginPath();
             context.lineJoin = 'round';
+            context.lineCap = 'round';
             if (this.mode === 'pen') {
                 context.globalCompositeOperation = "source-over";
                 // draw line from current point to new point
