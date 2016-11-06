@@ -26938,7 +26938,7 @@ var FmCanvasDirective = (function () {
         });
     }
     FmCanvasDirective.prototype.test = function () {
-        this.touchStatus.emit("this is: " + this);
+        this.touchStatus.emit("this is: " + this.constructor.prototype);
     };
     Object.defineProperty(FmCanvasDirective.prototype, "defaultPaintColor", {
         set: function (colorName) {
